@@ -1,0 +1,62 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv="X-UA-Compatible" content="IE-edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Game Knowledge Graph</title>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'knowledge/index.css' %}" />
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">Other</a></li>
+						<li><a href="#">About</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="text-center">
+					<h1>Game Knowledge Graph</h1>
+				</div>
+				<div>
+					<form role="form" action="{% url 'knowledge:search' %}" method="get">
+						<div class="form-group">
+							<div class="row">
+								
+								<div class="col-sm-6 col-sm-offset-3">
+									<input type="text" name="searchtext" class="form-control" placeholder="请输入游戏名称...">
+								</div>
+								<!-- <div class="col-sm-1">
+									<span class="glyphicon glyphicon-search"></span>
+								</div> -->
+							</div>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-info col-sm-offset-5 col-sm-2">搜索</button>
+						</div>
+					</form>
+				</div>
+				<!-- <div class="col-sm-6 col-sm-offset-3">
+					<blockquote>
+						<p>Enjoy you search</p>
+					</blockquote>
+				</div> -->
+			</div>
+			
+		</div>
+	</body>
+</html>
