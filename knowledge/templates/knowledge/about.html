@@ -1,0 +1,35 @@
+{% extends "knowledge/base.html" %}
+{% load staticfiles %}
+{% block title %}<title>Game Knowledge Graph</title> {% endblock %}
+{% block css %} 
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'knowledge/index.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<ul class="nav nav-tabs">
+				<li><a href="{% url 'knowledge:index' %}">Home</a></li>
+				<li><a href="{% url 'knowledge:advance' %}">Advanced Search</a></li>
+				<li class="active"><a href="{% url 'knowledge:about' %}">About</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="text-center">
+			<h2><small><!-- <a href="{% url 'knowledge:index' %}"> -->Game Knowledge Graph<!-- </a> --></small></h2>
+			<h1>Developed By <a href="http://againstsky.com/">Dirk Xu</a></h3>
+			<h3><small>Powered by Django</small></h3>
+		</div>
+		<!-- <div class="col-sm-6 col-sm-offset-3">
+			<blockquote>
+				<p>Enjoy you search</p>
+			</blockquote>
+		</div> -->
+	</div>
+	
+</div>
+{% endblock %}

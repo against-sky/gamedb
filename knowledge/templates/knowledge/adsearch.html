@@ -1,0 +1,45 @@
+{% extends "knowledge/base.html" %}
+{% load staticfiles %}
+{% block title %}
+	{% if gamedata.name %}
+	<title>{{ gamedata.name }}</title>
+	{% else %}
+	<title>Game Knowledge Graph</title>
+	{% endif %}
+{% endblock %}
+{% block css %} 
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'knowledge/search.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="{% url 'knowledge:adsearch' %}">Game Knowledge Graph</a>
+		</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<form class="navbar-form navbar-left" role="search" action="{% url 'knowledge:adsearch' %}">
+				<div class="form-group">
+					<input type="text" class="form-control" name="searchtext" value="{{ searchtext }}">
+				</div>
+				<button type="submit" class="btn btn-info">碰碰运气</button>
+			</form>
+			<a class="navbar-brand" href="{% url 'knowledge:index' %}">Back To Main Page</a>
+		</div>
+		<!-- <div class="navbar-header"> -->
+		<!-- </div> -->
+	</nav>
+	
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">推荐:</h3>
+		</div>
+		<div class="panel-body">
+			<p>same company</p>
+			<p>similar games</p>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
