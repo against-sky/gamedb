@@ -1,0 +1,55 @@
+body{
+	padding-top: 10px;
+}
+
+div{ 
+	word-wrap: break-word; 
+	word-break: break-all; 
+} 
+
+.entries{
+	display: inline;
+	width: 70%;
+	float: left;
+
+}
+
+.entry-baike{
+	display: inline;
+	width: 30%;
+	float: left;
+
+}
+
+.entry-left{
+	display: inline;
+	width: 30%;
+	float: left;
+}
+
+.entry-right{
+	display: inline;
+	width: 70%;
+	float: left;
+}
+
+.long-text{
+	overflow: hidden;
+}
+
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 20px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}

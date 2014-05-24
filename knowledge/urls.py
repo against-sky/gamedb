@@ -3,6 +3,7 @@ from knowledge import views
 
 urlpatterns = patterns('',
 	url(r'^$', views.index, name='index'),
+	url(r'^getit$',views.getit, name='getit'),
 	url(r'^advance$', views.advance, name='advance'),
 	url(r'^adsearch$', views.adsearch, name='adsearch'),
 	url(r'^about$', views.about, name='about'),

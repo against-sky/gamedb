@@ -9,14 +9,105 @@
 {% endblock %}
 {% block css %} 
 	{{ block.super }}
-	<link rel="stylesheet" type="text/css" href="{% static 'knowledge/search.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'knowledge/adsearch.css' %}" />
+	<script type="text/javascript" src="{% static 'prototype.js' %}"></script>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script>
+
+	
+	</script>
+	<script>
+    function expand(id){
+		// var long_text = $("#summary");
+		var long_text = $(id);
+		var down = $(".testdown");
+		var up = $(".testup");
+		console.log(long_text.data('oldHeight'));
+		long_text.animate({height:long_text.data('oldHeight')+"px"});
+		down.hide();up.show();
+	}
+    function collapse(id){
+		// var long_text = $("#summary");
+		var long_text = $(id);
+		var down = $(".testdown");
+		var up = $(".testup");
+
+		long_text.animate({height:'100px'});
+		down.show();up.hide();
+	}
+	function init_long_text(id){
+		var down = $(".testdown");
+		var up = $(".testup");
+
+		// var div = $("#summary");
+		var div = $(id)
+		// console.log("fdsa");
+		// console.log("测试"+ $("#summary").height());
+
+		div.data('oldHeight',$(id).height());
+		
+		if(div.data('oldHeight')<=100){
+			down.hide();
+			up.hide();
+		}else{
+			down.show();
+			up.hide();
+			div.height(100);
+		}
+	}
+
+	function expandbasic(id){
+		// var long_text = $("#summary");
+		var long_text = $(id);
+		var down = $(".basicdown");
+		var up = $(".basicup");
+		console.log(long_text.data('oldHeight'));
+		long_text.animate({height:long_text.data('oldHeight')+"px"});
+		down.hide();up.show();
+	}
+    function collapsebasic(id){
+		// var long_text = $("#summary");
+		var long_text = $(id);
+		var down = $(".basicdown");
+		var up = $(".basicup");
+
+		long_text.animate({height:'100px'});
+		down.show();up.hide();
+	}
+	function init_long_text_basic(id){
+		var down = $(".basicdown");
+		var up = $(".basicup");
+
+		// var div = $("#summary");
+		var div = $(id)
+		// console.log("fdsa");
+		// console.log("测试"+ $("#summary").height());
+
+		div.data('oldHeight',$(id).height());
+		
+		if(div.data('oldHeight')<=100){
+			down.hide();
+			up.hide();
+		}else{
+			down.show();
+			up.hide();
+			div.height(100);
+		}
+	}
+
+	
+
+   </script>
+
 {% endblock %}
 
+  
 {% block body %}
+
 <div class="container">
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="{% url 'knowledge:adsearch' %}">Game Knowledge Graph</a>
+			<a class="navbar-brand" href="{% url 'knowledge:advance' %}">Game Knowledge Graph</a>
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<form class="navbar-form navbar-left" role="search" action="{% url 'knowledge:adsearch' %}">
@@ -25,21 +116,239 @@
 				</div>
 				<button type="submit" class="btn btn-info">碰碰运气</button>
 			</form>
-			<a class="navbar-brand" href="{% url 'knowledge:index' %}">Back To Main Page</a>
+			<!-- <a class="enavbar-brand" href="{% url 'knowledge:index' %}">Back To Main Page</a> -->
 		</div>
 		<!-- <div class="navbar-header"> -->
 		<!-- </div> -->
 	</nav>
-	
-	<div class="panel panel-success">
+	<div class="panel panel-default">
+
 		<div class="panel-heading">
-			<h3 class="panel-title">推荐:</h3>
+			<h3 class="panel-title">搜索结果:</h3>
+			<!-- {% if page %}
+			<h3 class="panel-title">{{ page.name }} <small>{{ page.subname }}</small></h3>
+			{% else %}
+			<h3 class="panel-title">No match Data</h3>
+			{% endif %} -->
 		</div>
 		<div class="panel-body">
-			<p>same company</p>
-			<p>similar games</p>
+
+			<div class="row">
+				<div class="col-sm-8">
+
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">gamewangluo.name<small>gamewangluo.englishname</small></h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">							
+							<div class="col-sm-4">
+								<a href="#" class="thumbnail">
+									<img data-src="holder.js/120x120" alt="120x120" src="{{ gamedata.iconLink }}">
+								</a>
+								<p>dsakfhaksdhfkashfksahjfkjashfkadhskjfahsdk</p>
+							</div>
+							<!-- <div class="clearfix visiable-md"></div> -->
+							<div class="col-sm-8">
+								<table class="table table-hover">
+									<tr><td>fdsafasdfsd</td></tr>
+									<tr><td>dafsfskhfkjashkfjhsddsajfhksdhfkashdfkhsdkfhksdjhfksdhkfhkjdshfjkkjfhdksffdskhfjsdhfkjshdkfjhaskdfhsdkjhfkjsdhfkjsdhkjfhksdjh</td></tr>
+								</table>
+							</div>
+							</div>
+						</div>
+					</div>
+
+					{% if gamewangluo %}
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{ gamewangluo.name }}<small>{{ gamewangluo.englishname }}</small></h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-2">
+									<p>dsafaaaaaaaaaaaaaslfsadjljfldaskjflaksjdlkfjasldkjflasjdflasjlkfs</p>
+								</div>
+								<div class="col-sm-6">
+									<p>dsakfhaksdhfkashfksahjfkjashfkadhskjfahsdk</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					{% if gamewangye %}
+					<div class="panel panel-success">
+
+					</div>
+					{% endif %}
+					{% if gamedanji %}
+					<div class="panel panel-success">
+
+					</div>
+					{% endif %}
+					{% if android %}
+					<div class="panel panel-success">
+
+					</div>
+					{% endif %}
+					<div class="panel panel-success">
+						<div id="graph"></div>
+					</div>
+				</div>
+				{% if baike %}
+				<div class="col-sm-4">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{ baike.name }}<small>{{ baike.subname }}</small></h3>
+						</div>
+						<div class="panel-body">
+							<div>
+							<!-- {% if baike.iconLink %}
+							<p>
+								<a href="#" class="thumbnail">
+									<img data-src="holder.js/268x201" alt="268x201" src="{{ baike.iconLink }}">
+								</a>
+							</p>
+							{% endif %} -->
+							{% if baike.summary %}
+								<p id="top">
+								<div id="summary" class="long-text">{{ baike.summary }}</div>
+								<span class="testdown glyphicon glyphicon-chevron-down pull-right btn" onclick="expand('#summary')"></span>
+								<span class="testup glyphicon glyphicon-chevron-up pull-right btn" onclick="collapse('#summary')"></span>
+								</p>
+								<!-- {{ baike.summary }}...<a href="{{ baike.id }}">前往百度百科</a> -->
+								
+								<script>
+								init_long_text('#summary');
+							  	</script>		
+							{% endif %}
+							</div>
+							<!-- {{ baike.id }} -->
+							{% if baike.titles %}
+							<table class="table table-hover">
+								<thead><th>百度目录:&nbsp&nbsp&nbsp&nbsp&nbsp<a href="{{ baike.id }}">前往百度百科</a></th></thead>
+								<tbody>
+									<tr>
+										<td>
+											{% for entry in baike.titles %}
+											{{ entry }},
+											{% endfor %}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							{% endif %}
+							{% if baike.basic %}
+							<div id="basicInfo">
+							<div id="basic" class="long-text">
+								<table class="table table-hover">
+									<thead><th>基本信息:</th></thead>
+									<tbody>
+										{% for entry in baike.basic %}
+										<tr>
+											<td><b>{{ entry.basicKey }}</b>:{{ entry.basicValue }}</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+								
+							</div>
+							<span class="basicdown glyphicon glyphicon-chevron-down pull-right btn" onclick="expandbasic('#basic')"></span>
+							<span class="basicup glyphicon glyphicon-chevron-up pull-right btn" onclick="collapsebasic('#basic')"></span>
+							</div>
+							<script>
+								init_long_text_basic('#basic');
+								
+							</script>
+
+							{% endif %}
+
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+	function aaa(url){
+		new Ajax.Request(
+        "{% url 'knowledge:getit' %}",
+        {
+            method:"post",
+            parameters:"url="+ url,   
+            setRequestHeader:{"If-Modified-Since":"0"},
+            onComplete:function(x){   
+                    //alert(x.responseText);
+		    if(x.responseText){
+		    	var jsondata = x.responseText.evalJSON(true); 
+
+		    	var diameter = 660;
+
+				var tree = d3.layout.tree()
+				    .size([360, diameter / 2 - 120])
+				    .separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
+
+				var diagonal = d3.svg.diagonal.radial()
+				    .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
+				 // console.log('dajdas');
+				 // console.log(baike['id']);
+				var svg = d3.select("#graph").append("svg")
+					.attr("width", diameter)
+					.attr("height", diameter)
+				  .append("g")
+				    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+				  console.log(jsondata['name'])
+				d3.json("{% static 'flare.json' %}", function(error, root) {
+					// console.log(jsondata['name'])
+				  var nodes = tree.nodes(jsondata);
+				  var    links = tree.links(nodes);
+				      console.log('dasfsa');
+				  // alert(nodes);
+				  var link = svg.selectAll(".link")
+				      .data(links)
+				    .enter().append("path")
+				      .attr("class", "link")
+				      .attr("d", diagonal);
+
+				  var node = svg.selectAll(".node")
+				      .data(nodes)
+				    .enter().append("g")
+				      .attr("class", "node")
+				      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+				      // .on('mouseover', function(d){// alert("");})
+
+				  node.append("circle")
+				      .attr("r", 20);
+
+				  node.append("text")
+				      // .attr("dy", ".31em")
+				      .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+				      .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+				      .text(function(d) { return d.name; });
+				  node.append('title')
+				  	.text(function(d) {
+				  		return d.attr;
+				  	});
+				});
+
+				d3.select(self.frameElement).style("height", diameter - 150 + "px");
+
+
+		    	// console.log(x.responseText['ee'])
+	            }
+		   else if(x.responseText == "Please Login."){
+			//alert(t.getAttribute('data-noty-options'));
+	            }
+            },
+            onError:function(x){  
+                    //alert(x.statusText);
+            } 
+        } 
+   	)
+	}
+	aaa("sb")
+	</script>
 </div>
 {% endblock %}
 
