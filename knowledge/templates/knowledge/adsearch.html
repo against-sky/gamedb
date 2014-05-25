@@ -1,11 +1,7 @@
 {% extends "knowledge/base.html" %}
 {% load staticfiles %}
 {% block title %}
-	{% if gamedata.name %}
-	<title>{{ gamedata.name }}</title>
-	{% else %}
 	<title>Game Knowledge Graph</title>
-	{% endif %}
 {% endblock %}
 {% block css %} 
 	{{ block.super }}
@@ -135,62 +131,482 @@
 
 			<div class="row">
 				<div class="col-sm-8">
-
-					<div class="panel panel-success">
-						<div class="panel-heading">
-							<h3 class="panel-title">gamewangluo.name<small>gamewangluo.englishname</small></h3>
-						</div>
-						<div class="panel-body">
-							<div class="row">							
-							<div class="col-sm-4">
-								<a href="#" class="thumbnail">
-									<img data-src="holder.js/120x120" alt="120x120" src="{{ gamedata.iconLink }}">
-								</a>
-								<p>dsakfhaksdhfkashfksahjfkjashfkadhskjfahsdk</p>
-							</div>
-							<!-- <div class="clearfix visiable-md"></div> -->
-							<div class="col-sm-8">
-								<table class="table table-hover">
-									<tr><td>fdsafasdfsd</td></tr>
-									<tr><td>dafsfskhfkjashkfjhsddsajfhksdhfkashdfkhsdkfhksdjhfksdhkfhkjdshfjkkjfhdksffdskhfjsdhfkjshdkfjhaskdfhsdkjhfkjsdhfkjsdhkjfhksdjh</td></tr>
-								</table>
-							</div>
-							</div>
-						</div>
-					</div>
-
 					{% if gamewangluo %}
 					<div class="panel panel-success">
 						<div class="panel-heading">
-							<h3 class="panel-title">{{ gamewangluo.name }}<small>{{ gamewangluo.englishname }}</small></h3>
+							<h3 class="panel-title">网络游戏:{{ gamewangluo.name }}<small>{{ gamewangluo.englishname }}</small>&nbsp&nbsp&nbsp<a href="{% url 'knowledge:game' gamewangluo.originalURL %}">详细信息</a></h3>
 						</div>
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-sm-2">
-									<p>dsafaaaaaaaaaaaaaslfsadjljfldaskjflaksjdlkfjasldkjflasjdflasjlkfs</p>
+								<div class="col-sm-4">
+									<a href="#" class="thumbnail">
+										<img data-src="holder.js/240x240" alt="240x240" src="{{ gamewangluo.iconLink }}">
+									</a>
+									<!-- <p>dsafaaaaaaaaaaaaaslfsadjljfldaskjflaksjdlkfjasldkjflasjdflasjlkfs</p> -->
 								</div>
-								<div class="col-sm-6">
-									<p>dsakfhaksdhfkashfksahjfkjashfkadhskjfahsdk</p>
+								<div class="col-sm-8">
+									<table class="table table-hover">
+										<tr>
+											<th>主类型：</th>
+											<td>
+												{% if gamewangluo.mainType %}
+												{{ gamewangluo.mainType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>次类型：</th>
+											<td>
+												{% if gamewangluo.subType %}
+												{{ gamewangluo.subType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>资费：</th>
+											<td>
+												{% if gamewangluo.fee %}
+												{{ gamewangluo.fee }}
+												{% else %}
+												免费
+												{% endif %}
+											</td>
+											<th>最新版本：</th>
+											<td>
+												{% if gamewangluo.version %}
+												{{ gamewangluo.version }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>开发商：</th>
+											<td>
+												{% if gamewangluo.developer %}
+												{{ gamewangluo.developer }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>运营商：</th>
+											<td>
+												{% if gamewangluo.operator %}
+												{{ gamewangluo.operator }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>系统：</th>
+											<td colspan="3">
+												{% if gamewangluo.systemRequirement %}
+												{{ gamewangluo.systemRequirement }}
+												{% else %}
+												PC
+												{% endif %}
+											</td>
+										</tr>
+										{% if gamewangluo.tags %}
+										<tr>
+											<th>标签：</th>
+											<td colspan="3">
+												{% for tag in gamewangluo.tags %}
+												{{ tag }}
+												{% endfor %}			
+											</td>
+										</tr>
+										{% endif %}
+									</table>
 								</div>
 							</div>
 						</div>
 					</div>
 					{% endif %}
 					{% if gamewangye %}
-					<div class="panel panel-success">
-
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">网页游戏:{{ gamewangye.name }}<small>{{ gamewangye.englishname }}</small>&nbsp&nbsp&nbsp<a href="{% url 'knowledge:game' gamewangye.originalURL %}">详细信息</a></h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<a href="#" class="thumbnail">
+										<img data-src="holder.js/240x240" alt="240x240" src="{{ gamewangye.iconLink }}">
+									</a>
+									<!-- <p>dsafaaaaaaaaaaaaaslfsadjljfldaskjflaksjdlkfjasldkjflasjdflasjlkfs</p> -->
+								</div>
+								<div class="col-sm-8">
+									<table class="table table-hover">
+										<tr>
+											<th>主类型：</th>
+											<td>
+												{% if gamewangye.mainType %}
+												{{ gamewangye.mainType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>次类型：</th>
+											<td>
+												{% if gamewangye.subType %}
+												{{ gamewangye.subType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>资费：</th>
+											<td>
+												{% if gamewangye.fee %}
+												{{ gamewangye.fee }}
+												{% else %}
+												免费
+												{% endif %}
+											</td>
+											<th>最新版本：</th>
+											<td>
+												{% if gamewangye.version %}
+												{{ gamewangye.version }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>开发商：</th>
+											<td>
+												{% if gamewangye.developer %}
+												{{ gamewangye.developer }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>运营商：</th>
+											<td>
+												{% if gamewangye.operator %}
+												{{ gamewangye.operator }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>系统：</th>
+											<td colspan="3">
+												{% if gamewangye.systemRequirement %}
+												{{ gamewangye.systemRequirement }}
+												{% else %}
+												PC
+												{% endif %}
+											</td>
+										</tr>
+										{% if gamewangye.tags %}
+										<tr>
+											<th>标签：</th>
+											<td colspan="3">
+												{% for tag in gamewangye.tags %}
+												{{ tag }}
+												{% endfor %}			
+											</td>
+										</tr>
+										{% endif %}
+									</table>
+								</div>
+							</div>
+						</div>
 					</div>
 					{% endif %}
 					{% if gamedanji %}
-					<div class="panel panel-success">
-
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">单机游戏:{{ gamedanji.name }}<small>{{ gamedanji.englishname }}</small>&nbsp&nbsp&nbsp<a href="{% url 'knowledge:game' gamedanji.originalURL %}">详细信息</a></h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<a href="#" class="thumbnail">
+										<img data-src="holder.js/240x240" alt="240x240" src="{{ gamedanji.iconLink }}">
+									</a>
+									<!-- <p>dsafaaaaaaaaaaaaaslfsadjljfldaskjflaksjdlkfjasldkjflasjdflasjlkfs</p> -->
+								</div>
+								<div class="col-sm-8">
+									<table class="table table-hover">
+										<tr>
+											<th>主类型：</th>
+											<td>
+												{% if gamedanji.mainType %}
+												{{ gamedanji.mainType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>次类型：</th>
+											<td>
+												{% if gamedanji.subType %}
+												{{ gamedanji.subType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>资费：</th>
+											<td>
+												{% if gamedanji.fee %}
+												{{ gamedanji.fee }}
+												{% else %}
+												免费
+												{% endif %}
+											</td>
+											<th>最新版本：</th>
+											<td>
+												{% if gamedanji.version %}
+												{{ gamedanji.version }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>开发商：</th>
+											<td>
+												{% if gamedanji.developer %}
+												{{ gamedanji.developer }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>运营商：</th>
+											<td>
+												{% if gamedanji.operator %}
+												{{ gamedanji.operator }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>系统：</th>
+											<td colspan="3">
+												{% if gamedanji.systemRequirement %}
+												{{ gamedanji.systemRequirement }}
+												{% else %}
+												PC
+												{% endif %}
+											</td>
+										</tr>
+										{% if gamedanji.tags %}
+										<tr>
+											<th>标签：</th>
+											<td colspan="3">
+												{% for tag in gamedanji.tags %}
+												{{ tag }}
+												{% endfor %}			
+											</td>
+										</tr>
+										{% endif %}
+									</table>
+								</div>
+							</div>
+						</div>
 					</div>
 					{% endif %}
-					{% if android %}
-					<div class="panel panel-success">
-
+					{% if gameandroid %}
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">Android游戏:{{ gameandroid.name }}<small>{{ gameandroid.englishname }}</small>&nbsp&nbsp&nbsp<a href="{% url 'knowledge:game' gameandroid.originalURL %}">详细信息</a></h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<a href="#" class="thumbnail">
+										<img data-src="holder.js/240x240" alt="240x240" src="{{ gameandroid.iconLink }}">
+									</a>
+									<!-- <p>dsafaaaaaaaaaaaaaslfsadjljfldaskjflaksjdlkfjasldkjflasjdflasjlkfs</p> -->
+								</div>
+								<div class="col-sm-8">
+									<table class="table table-hover">
+										<tr>
+											<th>主类型：</th>
+											<td>
+												{% if gameandroid.mainType %}
+												{{ gameandroid.mainType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>次类型：</th>
+											<td>
+												{% if gameandroid.subType %}
+												{{ gameandroid.subType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>资费：</th>
+											<td>
+												{% if gameandroid.fee %}
+												{{ gameandroid.fee }}
+												{% else %}
+												免费
+												{% endif %}
+											</td>
+											<th>最新版本：</th>
+											<td>
+												{% if gameandroid.version %}
+												{{ gameandroid.version }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>开发商：</th>
+											<td>
+												{% if gameandroid.developer %}
+												{{ gameandroid.developer }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>运营商：</th>
+											<td>
+												{% if gameandroid.operator %}
+												{{ gameandroid.operator }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>系统：</th>
+											<td colspan="3">
+												{% if gameandroid.systemRequirement %}
+												{{ gameandroid.systemRequirement }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										{% if gameandroid.tags %}
+										<tr>
+											<th>标签：</th>
+											<td colspan="3">
+												{% for tag in gameandroid.tags %}
+												{{ tag }}
+												{% endfor %}			
+											</td>
+										</tr>
+										{% endif %}
+									</table>
+								</div>
+							</div>
+						</div>
 					</div>
 					{% endif %}
+					{% if gameiphone %}
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">iOS游戏:{{ gameiphone.name }}<small>{{ gameiphone.englishname }}</small>&nbsp&nbsp&nbsp<a href="{% url 'knowledge:game' gameiphone.originalURL %}">详细信息</a></h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-4">
+									<a href="#" class="thumbnail">
+										<img data-src="holder.js/240x240" alt="240x240" src="{{ gameiphone.iconLink }}">
+									</a>
+									<!-- <p>dsafaaaaaaaaaaaaaslfsadjljfldaskjflaksjdlkfjasldkjflasjdflasjlkfs</p> -->
+								</div>
+								<div class="col-sm-8">
+									<table class="table table-hover">
+										<tr>
+											<th>主类型：</th>
+											<td>
+												{% if gameiphone.mainType %}
+												{{ gameiphone.mainType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>次类型：</th>
+											<td>
+												{% if gameiphone.subType %}
+												{{ gameiphone.subType }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>资费：</th>
+											<td>
+												{% if gameiphone.fee %}
+												{{ gameiphone.fee }}
+												{% else %}
+												免费
+												{% endif %}
+											</td>
+											<th>最新版本：</th>
+											<td>
+												{% if gameiphone.version %}
+												{{ gameiphone.version }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>开发商：</th>
+											<td>
+												{% if gameiphone.developer %}
+												{{ gameiphone.developer }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+											<th>运营商：</th>
+											<td>
+												{% if gameiphone.operator %}
+												{{ gameiphone.operator }}
+												{% else %}
+												未知
+												{% endif %}
+											</td>
+										</tr>
+										<tr>
+											<th>系统：</th>
+											<td colspan="3">
+												{% if gameiphone.systemRequirement %}
+												{{ gameiphone.systemRequirement }}
+												{% else %}
+												iOS 5.0及以上
+												{% endif %}
+											</td>
+										</tr>
+										{% if gameiphone.tags %}
+										<tr>
+											<th>标签：</th>
+											<td colspan="3">
+												{% for tag in gameiphone.tags %}
+												{{ tag }}
+												{% endfor %}			
+											</td>
+										</tr>
+										{% endif %}
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+
 					<div class="panel panel-success">
 						<div id="graph"></div>
 					</div>

@@ -1,3 +1,25 @@
 body{
 	padding-top: 10px;
 }
+
+.gameitem{
+	/*margin: 2px;*/
+	/*border: 1px solid #ccc;*/
+	height: 250px;
+	/*width: 220px;*/
+	text-align: center;
+	float: left;
+	overflow: hidden;
+}
+
+
+.clearfloat{
+	clear:both;
+	height:0;
+	font-size: 1px;
+	line-height: 0px;
+}
+
+.floatToleft{
+	float: left;
+}
