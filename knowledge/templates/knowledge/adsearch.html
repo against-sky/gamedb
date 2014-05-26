@@ -606,6 +606,41 @@
 						</div>
 					</div>
 					{% endif %}
+					{% if other %}
+					{% for page in other %}
+					<div class="col-md-6">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{ page.name }}<small>{{ page.subname }}</small></h3>
+						</div>
+						<div class="panel-body">
+							<div>
+								{% if page.summary %}
+								<!-- <p id="top"> -->
+								<textarea class="form-control" rows="5" readonly>{{ page.summary }}</textarea>
+								<!-- <div id="summary" class="long-text">{{ baike.summary }}</div> -->
+								<!-- </p>								 -->
+								{% endif %}
+							</div>
+							{% if page.titles %}
+							<table class="table table-hover">
+								<thead><th>百度目录:&nbsp&nbsp&nbsp&nbsp&nbsp<a href="{{ page.originalURL }}">前往百度百科</a></th></thead>
+								<tbody>
+									<tr>
+										<td>
+											{% for entry in baike.titles %}
+											{{ entry }},
+											{% endfor %}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							{% endif %}
+						</div>
+					</div>
+					</div>
+					{% endfor %}
+					{% endif %}
 
 					<div class="panel panel-success">
 						<div id="graph"></div>
@@ -619,30 +654,20 @@
 						</div>
 						<div class="panel-body">
 							<div>
-							<!-- {% if baike.iconLink %}
-							<p>
-								<a href="#" class="thumbnail">
-									<img data-src="holder.js/268x201" alt="268x201" src="{{ baike.iconLink }}">
-								</a>
-							</p>
-							{% endif %} -->
-							{% if baike.summary %}
+								{% if baike.summary %}
 								<p id="top">
 								<div id="summary" class="long-text">{{ baike.summary }}</div>
 								<span class="testdown glyphicon glyphicon-chevron-down pull-right btn" onclick="expand('#summary')"></span>
 								<span class="testup glyphicon glyphicon-chevron-up pull-right btn" onclick="collapse('#summary')"></span>
-								</p>
-								<!-- {{ baike.summary }}...<a href="{{ baike.id }}">前往百度百科</a> -->
-								
+								</p>								
 								<script>
 								init_long_text('#summary');
 							  	</script>		
 							{% endif %}
 							</div>
-							<!-- {{ baike.id }} -->
 							{% if baike.titles %}
 							<table class="table table-hover">
-								<thead><th>百度目录:&nbsp&nbsp&nbsp&nbsp&nbsp<a href="{{ baike.id }}">前往百度百科</a></th></thead>
+								<thead><th>百度目录:&nbsp&nbsp&nbsp&nbsp&nbsp<a href="{{ baike.originalURL }}">前往百度百科</a></th></thead>
 								<tbody>
 									<tr>
 										<td>
@@ -667,20 +692,18 @@
 										{% endfor %}
 									</tbody>
 								</table>
-								
 							</div>
 							<span class="basicdown glyphicon glyphicon-chevron-down pull-right btn" onclick="expandbasic('#basic')"></span>
 							<span class="basicup glyphicon glyphicon-chevron-up pull-right btn" onclick="collapsebasic('#basic')"></span>
 							</div>
 							<script>
 								init_long_text_basic('#basic');
-								
 							</script>
-
 							{% endif %}
-
 						</div>
 					</div>
+					
+
 				</div>
 				{% endif %}
 			</div>
@@ -735,7 +758,7 @@
 				      // .on('mouseover', function(d){// alert("");})
 
 				  node.append("circle")
-				      .attr("r", 20);
+				      .attr("r", 10);
 
 				  node.append("text")
 				      // .attr("dy", ".31em")
@@ -763,7 +786,7 @@
         } 
    	)
 	}
-	aaa("sb")
+	aaa("{{ baike.originalURL }}")
 	</script>
 </div>
 {% endblock %}
