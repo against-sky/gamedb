@@ -101,13 +101,10 @@ def getgame(searchtext, checked):
 		pass
 	else:
 		return None,None,None,None
-		# print 'javascript'
-	# print 'df'
-	print res
-	# print 'danji'
+	#print res
 	gamedata = collection.find_one({'_id':res[0]['id']})
 	similarNames = res[1:]
-	print similarNames
+	#print similarNames
 	if gamedata:
 		companygames = collection.find({'developer':gamedata['developer'],'_id':{ '$not': re.compile(gamedata['_id'])}},{'originalURL':1,'name':1,'subType':1,'iconLink':1}).limit(40)
 		similargames = collection.find({'_id':{'$in':gamedata['similarGames']}},{'originalURL':1,'name':1,'subType':1,'iconLink':1})
