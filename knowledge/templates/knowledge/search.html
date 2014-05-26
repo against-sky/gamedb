@@ -173,6 +173,20 @@
 		</nav>
 
 	{% endif %}
+	{% if similarNames %}
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h3 class="panel-title">相似名称:</h3>
+		</div>
+		<div class="panel-body">
+			{% for entry in similarNames %}
+			<div class="col-md-2">
+				<a href="{% url 'knowledge:game' entry.id %}">{{ entry.name }}</a>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
 	{% if similargames %}
 	<div class="panel panel-info">
 		<div class="panel-heading">
@@ -181,6 +195,18 @@
 		<div class="panel-body">
 			<!-- <p>same name</p>
 			<p>similar name</p> -->
+			{% ifequal checked '3' %}
+			<!-- <p>dasfkhasdhfkjasdh</p> -->
+			{% for entry in similargames %}
+			<div class="col-md-3 pcitem">
+				<a href="#" class="thumbnail">
+					<img data-src="holder.js/240x240" alt="240x240" src="{{ entry.iconLink }}">
+				</a>
+				<h3><a href="{% url 'knowledge:game' entry.originalURL %}">{{ entry.name }}</a></h3>
+				<p>{{ entry.subType }}</p>
+			</div>
+			{% endfor %}
+			{% else %}
 			{% for entry in similargames %}
 			<div class="col-md-3 gameitem">
 				<a href="#" class="thumbnail">
@@ -190,6 +216,39 @@
 				<p>{{ entry.subType }}</p>
 			</div>
 			{% endfor %}
+			<!-- <p>sdafkhsdkhfkjsdhkfsdhkfhskdhfkj</p> -->
+			{% endifequal %}
+
+<!-- 			{% for entry in similargames %}
+			<div class="col-md-3 gameitem">
+				<a href="#" class="thumbnail">
+					<img data-src="holder.js/240x240" alt="240x240" src="{{ entry.iconLink }}">
+				</a>
+				<h3><a href="{% url 'knowledge:game' entry.originalURL %}">{{ entry.name }}</a></h3>
+				<p>{{ entry.subType }}</p>
+			</div>
+			{% endfor %}		
+			{% ifequal checked '3' %}
+			{% for entry in similargames %}
+			<div class="col-md-3 pcitem">
+				<a href="#" class="thumbnail">
+					<img data-src="holder.js/240x240" alt="240x240" src="{{ entry.iconLink }}">
+				</a>
+				<h3><a href="{% url 'knowledge:game' entry.originalURL %}">{{ entry.name }}</a></h3>
+				<p>{{ entry.subType }}</p>
+			</div>
+			{% endfor %}
+			{% else %}
+			{% for entry in similargames %}
+			<div class="col-md-3 gameitem">
+				<a href="#" class="thumbnail">
+					<img data-src="holder.js/240x240" alt="240x240" src="{{ entry.iconLink }}">
+				</a>
+				<h3><a href="{% url 'knowledge:game' entry.originalURL %}">{{ entry.name }}</a></h3>
+				<p>{{ entry.subType }}</p>
+			</div>
+			{% endfor %}
+			{% endifequal %} -->
 			<div class="clearfloat"></div>
 		</div>
 	</div>
@@ -202,6 +261,17 @@
 		<div class="panel-body">
 			<!-- <p>same company</p>
 			<p>similar games</p> -->
+			{% ifequal checked '3' %}
+			{% for entry in companygames %}
+			<div class="col-md-3 pcitem">
+				<a href="#" class="thumbnail">
+					<img data-src="holder.js/240x240" alt="240x240" src="{{ entry.iconLink }}">
+				</a>
+				<h3><a href="{% url 'knowledge:game' entry.originalURL %}">{{ entry.name }}</a></h3>
+				<p>{{ entry.subType }}</p>
+			</div>
+			{% endfor %}
+			{% else %}
 			{% for entry in companygames %}
 			<div class="col-md-3 gameitem">
 				<a href="#" class="thumbnail">
@@ -211,6 +281,7 @@
 				<p>{{ entry.subType }}</p>
 			</div>
 			{% endfor %}
+			{% endifequal %}
 			<div class="clearfloat"></div>
 		</div>
 	</div>

@@ -12,6 +12,13 @@ body{
 	overflow: hidden;
 }
 
+.pcitem{
+	height: 320px;
+	text-align: center;
+	float: left;
+	overflow: hidden;
+}
+
 
 .clearfloat{
 	clear:both;
