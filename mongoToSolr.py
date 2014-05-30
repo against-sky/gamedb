@@ -3,16 +3,16 @@
 from pymongo import *
 from mysolr import Solr
 
-mongo_url = 'mongodb://10.76.0.137:27017/'
-#mongo_url = 'mongodb://localhost:27017'
+#mongo_url = 'mongodb://10.76.0.137:27017/'
+mongo_url = 'mongodb://localhost:27017'
 client = MongoClient(mongo_url)
 db = client['knowledge']
 solr_url = 'http://localhost:8983/solr/'
 solr = Solr(solr_url)
 
-pages = db.iphone.find({'summary':{'$exists':True},'name':{'$exists':True},'tags':{'$exists':True}},{'_id':1,'name':1,'summary':1,'tags':1})
+#pages = db.iphone.find({'summary':{'$exists':True},'name':{'$exists':True},'tags':{'$exists':True}},{'_id':1,'name':1,'summary':1,'tags':1})
 items = []
-
+'''
 count = 0
 for page in pages:
 	print count
@@ -22,41 +22,44 @@ for page in pages:
 	item = {}
 	item['id'] = page['_id']
 	print item['id']
-	'''
-	if page.has_key('name'):
-		if page.has_key('tags'):
-			item['tags'] = page['tags']
-		
-	else:
-		continue
-	'''
+	
+	#if page.has_key('name'):
+	#	if page.has_key('tags'):
+	#		item['tags'] = page['tags']
+	#	
+	#else:
+	#	continue
+	
 	item['ipname'] = page['name']
 	item['content'] = page['summary']
 	item['tags'] = page['tags']
 	item['type'] = 5
 	print item['ipname']
 	items.append(item)
-
 '''
+count = 0
+db = client['baidu']
+pages = db.baike.find({},{'name':1,'subname':1,'_id':1})
 for page in pages:
 	print count
 	count = count + 1
 	item = {}
-	if page.has_key('subname'):
+	if str(page['_id']).startswith('http'):
 		pass
 	else:
 		continue
-		
-	print page['name']
-	print page['subname']
+	
+	print page['name'].encode('utf-8')
+	#print page['subname']
 	print page['_id']
 
 	item['id'] = page['_id']
 	item['name'] = page['name']
-	item['subname'] = page['subname']
-	item['content'] = page['content']
+	if page.has_key('subname'):
+		item['subname'] = page['subname']
+	#item['content'] = page['content']
 	items.append(item)
-'''
+
 solr.update(items, 'json',commit=False)
 solr.commit()
 
