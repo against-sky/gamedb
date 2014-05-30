@@ -9,11 +9,13 @@ from django.views.decorators.csrf import csrf_exempt
 import simplejson
 import re
 # Create your views here.
-#mongo_url = 'mongodb://10.76.0.137:27017/'
-mongo_url = 'mongodb://localhost:27017'
+mongo_url = 'mongodb://10.76.0.137:27017/'
+solr_url = 'http://10.76.0.137:8983/solr/'
+#solr_url = 'http://localhost:8983/solr/'
+#mongo_url = 'mongodb://localhost:27017'
+
 client = MongoClient(mongo_url)
 db = client['knowledge']
-solr_url = 'http://localhost:8983/solr/'
 baidu = client['baidu']
 
 solr = Solr(solr_url)
@@ -33,18 +35,10 @@ def getit(reqeust):
 
 	tree = baidu.tree.find_one({ '_id':url })
 	#tree = getGraph(url)
-	d = {}
-	d = {
-		"name": "flare",
-		"children": [
-			{ "name": "analytics","size": 3938 ,"attr":"nihao"},
-			{"name": "AgglomerativeCluster", "size": 3938, "attr":"dsljflaskdj"},
-			{"name": "CommunityStructure", "size": 3812},
-			{"name": "HierarchicalCluster", "size": 6714},
-			{"name": "MergeEdge", "size": 743}
-			]
-		}
+	# d = {}
+	d = { "name": "No Graph" }
 	#print tree.name,tree['attr']
+	print 'get tree'
 	if tree:
 		'''
 		d = {}
@@ -54,10 +48,12 @@ def getit(reqeust):
 		print len(children)
 		print 'b'
 		'''
-		# if len(tree['children'])>50:
-			# tree['children'] = tree['children'][0:50]
-		#print tree
-		d = simplejson.dumps(tree['tree'])
+		tree = tree['tree']
+		print len(tree['children'])
+		if len(tree['children'])>50:
+			tree['children'] = tree['children'][0:50]
+		# print tree
+		d = simplejson.dumps(tree)
 	else:
 		d = simplejson.dumps(d)
 	#print d
@@ -229,37 +225,57 @@ def advance(reqeust):
 	if searchtext =='' :
 		return render(reqeust, 'knowledge/advance.html', {})
 	else:
+		is_role = False
 		other = []
 		tmp = getFromSolr(searchtext,0,3.0)
+		tmpsearchtext = searchtext
 		if tmp:
 			page = baidu.baike.find_one({'_id':tmp[0]})
-			if len(tmp)>1:
-				other  = baidu.baike.find({'_id':{'$in':tmp[1:]}},{'_id':1,'name':1,'summary':1,'titles':1,'originalURL':1})
+			print page['pagetype']
+			# print page['gameURL']
+			
+			print tmp[0]
+			if page.has_key('gameURL') and page['pagetype'] == '0':
+				other  = baidu.baike.find({'_id':{'$in':page['gameURL']}},{'_id':1,'name':1,'summary':1,'titles':1,'originalURL':1,'basic':1})
+				# print other[0]['name']
+				# print other[0]['name']
+				if other.count()>0:
+					tmpsearchtext = other[0]['name']
+					is_role = True
+			else:
+				if len(tmp)>1:
+					other  = baidu.baike.find({'_id':{'$in':tmp[1:]}},{'_id':1,'name':1,'summary':1,'titles':1,'originalURL':1})
+				# tree = baidu.tree.find_one({ '_id':tmp[0] })
+				# if tree:
+					# print tree
+					# pass
+
 		else:
 			page = None
 		
 		#print other
-		tmp = getFromSolr(searchtext,1,3.0)
+		tmp = getFromSolr(tmpsearchtext,1,3.0)
 		if tmp:
 			gamewangluo = db.wangluo.find_one({'_id':tmp[0]})
+
 		else:
 			gamewangluo = None
-		tmp = getFromSolr(searchtext,2,3.0)
+		tmp = getFromSolr(tmpsearchtext,2,3.0)
 		if tmp:
 			gamewangye = db.wangye.find_one({'_id':tmp[0]})
 		else:
 			gamewangye = None
-		tmp = getFromSolr(searchtext,3,3.0)
+		tmp = getFromSolr(tmpsearchtext,3,3.0)
 		if tmp:
 			gamedanji = db.danji.find_one({'_id':tmp[0]})
 		else:
 			gamedanji = None
-		tmp = getFromSolr(searchtext,4,3.0)
+		tmp = getFromSolr(tmpsearchtext,4,3.0)
 		if tmp:
 			gameandroid = db.android.find_one({'_id':tmp[0]})
 		else:
 			gameandroid = None
-		tmp = getFromSolr(searchtext,5,3.0)
+		tmp = getFromSolr(tmpsearchtext,5,3.0)
 		if tmp:
 			gameiphone = db.iphone.find_one({'_id':tmp[0]})
 		else:
@@ -294,7 +310,8 @@ def advance(reqeust):
 			'gameandroid':gameandroid,
 			'gameiphone':gameiphone,
 			'baike':page,
-			'other':other})
+			'other':other,
+			'is_role':is_role})
 
 
 def about(reqeust):

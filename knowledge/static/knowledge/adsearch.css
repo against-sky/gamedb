@@ -53,3 +53,7 @@ div{
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
+.role_basic{
+	border-bottom: 1px dashed #ccc;
+}
