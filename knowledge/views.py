@@ -9,8 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 import simplejson
 import re
 # Create your views here.
-mongo_url = 'mongodb://10.76.0.137:27017/'
-# mongo_url = 'mongodb://localhost:27017'
+#mongo_url = 'mongodb://10.76.0.137:27017/'
+mongo_url = 'mongodb://localhost:27017'
 client = MongoClient(mongo_url)
 db = client['knowledge']
 solr_url = 'http://localhost:8983/solr/'
@@ -18,11 +18,21 @@ baidu = client['baidu']
 
 solr = Solr(solr_url)
 
+def getGraph(url):
+	tree = baidu.tree.find({'_id':url})[0]
+	print 'begin'
+	print tree['name'].encode('utf-8'),tree['attr'].encode('utf-8')
+	print 'mid'
+	print len(tree['children'])
+	print 'end'
+	return tree
+
 @csrf_exempt
 def getit(reqeust):
 	url = reqeust.POST['url']
 
 	tree = baidu.tree.find_one({ '_id':url })
+	#tree = getGraph(url)
 	d = {}
 	d = {
 		"name": "flare",
@@ -34,7 +44,16 @@ def getit(reqeust):
 			{"name": "MergeEdge", "size": 743}
 			]
 		}
+	#print tree.name,tree['attr']
 	if tree:
+		'''
+		d = {}
+		d['name'] = tree['name']
+		children = tree['children']
+		print 'a'
+		print len(children)
+		print 'b'
+		'''
 		# if len(tree['children'])>50:
 			# tree['children'] = tree['children'][0:50]
 		#print tree
@@ -52,14 +71,14 @@ def get_value(reqeust,key,default):
 		return default
 
 def game(reqeust, param1):
-	print param1
+	#print param1
 	gamedata = db.wangluo.find_one({'_id':param1 })
 	if gamedata:
 		companygames = db.wangluo.find({'developer':gamedata['developer'],'_id':{ '$not': re.compile(gamedata['_id'])}},{'originalURL':1,'name':1,'subType':1,'iconLink':1}).limit(40)
 		similargames = db.wangluo.find({'_id':{'$in':gamedata['similarGames']}},{'originalURL':1,'name':1,'subType':1,'iconLink':1})
 		#print gamedata['similarGames']
-		for x in similargames:
-			print x['_id']
+		#for x in similargames:
+		#	print x['_id']
 		return render(reqeust, 'knowledge/search.html', {'searchtext':gamedata['name'],'checked':'1', 'gamedata':gamedata,'companygames':companygames ,'similargames':similargames})
 	gamedata = db.wangye.find_one({'_id':param1 })
 	if gamedata:
@@ -186,12 +205,17 @@ def getFromSolr(searchtext,nameType,threshold):
 	name = name + searchtext
 	query = {'q':name,'fl':fl}
 	doc = solr.search(**query).documents
-	print doc
+	#print doc
 	res = []
 	for item in doc:
 		if item['score'] > threshold:
 			res.append(item['id'])
-	return res
+	#return res
+	if res:
+		return res
+	else:
+		for x in doc:
+			res.append(x['id'])
 
 def advance(reqeust):
 	print 'this is advance'
@@ -205,13 +229,16 @@ def advance(reqeust):
 	if searchtext =='' :
 		return render(reqeust, 'knowledge/advance.html', {})
 	else:
+		other = []
 		tmp = getFromSolr(searchtext,0,3.0)
 		if tmp:
 			page = baidu.baike.find_one({'_id':tmp[0]})
+			if len(tmp)>1:
+				other  = baidu.baike.find({'_id':{'$in':tmp[1:]}},{'_id':1,'name':1,'summary':1,'titles':1,'originalURL':1})
 		else:
 			page = None
-		other  = baidu.baike.find({'_id':{'$in':tmp[1:]}},{'_id':1,'name':1,'summary':1,'titles':1,'originalURL':1})
-		print other
+		
+		#print other
 		tmp = getFromSolr(searchtext,1,3.0)
 		if tmp:
 			gamewangluo = db.wangluo.find_one({'_id':tmp[0]})
